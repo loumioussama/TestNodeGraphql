@@ -38,6 +38,15 @@ exports.createComment = (parent, args, req) => {
     }
 }
 
+exports.getPost = (parent, args) => {
+    try {
+         const data = posts.findByPk(args.id, { include: ["comments"] })
+         return new Response(200, 'success', data,null,null);
+    } catch (error) {
+        return new Response(500, error.message)
+    }
+}
+
 
 
 

@@ -18,6 +18,10 @@ const rootQuery = new GraphQLObjectType({
     fields: () => ({
         post: {
             type: ResponseType,
+            args: {
+                id: { type: GraphQLNonNull(GraphQLInt) }
+            },
+            resolve: resolvers.getPost
         }
     })
 
