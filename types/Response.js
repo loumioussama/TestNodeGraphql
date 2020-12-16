@@ -1,5 +1,5 @@
 const Response = class Response {
-    constructor(status, message, posts) {
+    constructor(status, message, posts, comments) {
         this.message = message
         this.status = status;
         if (posts) {
@@ -11,7 +11,17 @@ const Response = class Response {
         } else {
             this.posts = null
         }
-    
+        if (comments) {
+            if (comments.length !== undefined) {
+                this.comments = comments
+
+            } else {
+
+                this.comments = [comments]
+            }
+        } else {
+            this.comments = null
+        }
     }
 }
 

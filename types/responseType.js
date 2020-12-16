@@ -7,7 +7,7 @@ const {
 
 } = require('graphql')
 
-const { postType } = require('./types')
+const { postType,commentType } = require('./types')
 
 
 exports.ResponseType = new GraphQLObjectType({
@@ -15,6 +15,7 @@ exports.ResponseType = new GraphQLObjectType({
     fields: () => ({
         status: { type: GraphQLNonNull(GraphQLInt) },
         message: { type: GraphQLNonNull(GraphQLString) },
+        comments: { type: GraphQLList(commentType) },
         posts: { type: GraphQLList(postType) },
     })
 })

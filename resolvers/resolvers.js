@@ -1,6 +1,7 @@
 const { parse } = require('graphql');
 const db = require('../models/config.models');
 const posts = db.posts;
+const comments = db.comments;
 
 
 const { Response } = require('../types/Response')
@@ -17,6 +18,24 @@ exports.createPost = async (parent, args, req) => {
         } catch (error) {
             return new Response(401, 'Something went wrong');
         }
+}
+
+exports.createComment = (parent, args, req) => {
+    let ops = {};
+    for (let obj of args.fields) {
+        ops[obj.propName] = obj.value;
+    }
+    ops['postId'] = args.id;
+    try {
+        comments.create(ops).then(data => {
+         return new Response(200, 'post created successfully')
+        })
+        .catch(err => {
+         return new Response(500, err.message)
+        });
+    } catch (error) {
+        return new Response(401, 'Something went wrong')
+    }
 }
 
 
