@@ -4,7 +4,7 @@ const posts = db.posts;
 const comments = db.comments;
 
 
-const { Response } = require('../types/Response')
+const { Response, ResponsePaginated } = require('../types/Response')
 
 
 exports.createPost = async (parent, args, req) => {
@@ -44,6 +44,35 @@ exports.getPost = (parent, args) => {
          return new Response(200, 'success', data,null,null);
     } catch (error) {
         return new Response(500, error.message)
+    }
+}
+const getPagination = (page, size) => {
+    page = parseInt(page);
+    size = parseInt(size);
+    const limit = size ? +size : 3;
+    const offset = page ? page * limit : 0;
+  
+    return { limit, offset };
+  };
+  const getPagingData = (data, page, limit) => {
+    const { count: totalItems, rows: posts } = data;
+    const currentPage = page ? +page : 0;
+    const totalPages = Math.ceil(totalItems / limit);
+    return { totalItems, posts, totalPages, currentPage };
+  };
+exports.getallPosts = async (parent, args) => {
+    try {
+        const { page, size } = args;
+      
+        const { limit, offset } = getPagination(page, size);
+      
+       const data = await posts.findAndCountAll({ where: {}, limit, offset });
+       const response = getPagingData(data, page, limit);
+       return new ResponsePaginated(200, 'success', response.posts, null, response.totalItems, response.totalPages )
+
+    } catch (error) {
+        return new ResponsePaginated(500, error.message)
+
     }
 }
 

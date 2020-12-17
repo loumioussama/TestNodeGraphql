@@ -10,7 +10,7 @@ const {
 } = require('graphql')
 
 const resolvers = require('../resolvers/resolvers');
-const { ResponseType } = require('../types/responseType');
+const { ResponseType, ResponsePaginateType } = require('../types/responseType');
 
 const rootQuery = new GraphQLObjectType({
 
@@ -22,6 +22,14 @@ const rootQuery = new GraphQLObjectType({
                 id: { type: GraphQLNonNull(GraphQLInt) }
             },
             resolve: resolvers.getPost
+        },
+        allPosts: {
+            type: ResponsePaginateType,
+            args: {
+                page: { type: GraphQLNonNull(GraphQLString) },
+                size: { type: GraphQLNonNull(GraphQLString) }
+            },
+            resolve: (resolvers.getallPosts)
         }
     })
 

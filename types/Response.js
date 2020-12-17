@@ -25,4 +25,14 @@ const Response = class Response {
     }
 }
 
-module.exports = { Response }
+const ResponsePaginated = class ResponsePaginated extends Response {
+
+    constructor(status, message, posts, comments,total, pages) {
+        super(status, message, posts, comments)
+        this.total = total;
+        this.pages = pages;
+
+    }
+}
+
+module.exports = { Response, ResponsePaginated }

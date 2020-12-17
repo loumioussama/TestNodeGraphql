@@ -19,3 +19,15 @@ exports.ResponseType = new GraphQLObjectType({
         posts: { type: GraphQLList(postType) },
     })
 })
+
+exports.ResponsePaginateType = new GraphQLObjectType({
+    name: 'responsepaginated',
+    fields: () => ({
+        status: { type: GraphQLNonNull(GraphQLInt) },
+        message: { type: GraphQLNonNull(GraphQLString) },
+        comments: { type: GraphQLList(commentType) },
+        posts: { type: GraphQLList(postType) },
+        pages: { type: GraphQLNonNull(GraphQLInt) },
+        total: { type: GraphQLNonNull(GraphQLInt) }
+    })
+})
